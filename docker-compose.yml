@@ -30,5 +30,16 @@ services:
     command: "npm start"
     depends_on:
       - grafana
+      - alertmanager
     ports:
       - "3001:80"
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml

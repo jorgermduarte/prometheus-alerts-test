@@ -1,0 +1,11 @@
+groups:
+  - name: app-node-test-alerts
+    rules:
+      - alert: HighRequestRate
+        expr: rate(http_requests_total[1m]) * 60 > 5
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: High request rate detected
+          description: The rate of HTTP requests in the last minute is high (> 5 requests/s).

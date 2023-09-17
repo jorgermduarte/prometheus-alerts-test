@@ -5,12 +5,14 @@ const app = express();
 const PORT = 80;
 
 const prometheusRegister = promClient.register;
+
 const httpRequestDurationMicroseconds = new promClient.Histogram({
   name: 'http_request_duration_ms',
   help: 'Duration of HTTP requests in ms',
   labelNames: ['method', 'route', 'status'],
   buckets: [0.1, 5, 15, 50, 100, 500],
 });
+
 const httpRequestsTotal = new promClient.Counter({
   name: 'http_requests_total',
   help: 'Total number of HTTP requests',
@@ -38,15 +40,16 @@ app.get('/', (req, res) => {
   res.status(200).send('Hello, World!');
 });
 
-app.get('/metrics', async (req, res) => {
-  try {
-    res.set('Content-Type', prometheusRegister.contentType);
-    const metrics = await prometheusRegister.metrics();
-    res.send(metrics);
-  } catch (error) {
-    console.error('Erro ao obter métricas do Prometheus:', error);
-    res.status(500).send('Erro ao obter métricas do Prometheus');
-  }
+app.get('/metrics', (req, res) => {
+  prometheusRegister.metrics()
+    .then(metrics => {
+      res.set('Content-Type', prometheusRegister.contentType);
+      res.send(metrics);
+    })
+    .catch(error => {
+      console.error('Erro ao obter métricas do Prometheus:', error);
+      res.status(500).send('Erro ao obter métricas do Prometheus');
+    });
 });
 
 
