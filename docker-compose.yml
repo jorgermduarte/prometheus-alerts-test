@@ -34,14 +34,16 @@ services:
     ports:
       - "3001:80"
 
-
   app-java-servlet-test:
-      build:
-        context: ./java-app-servlet
-      container_name: app-java-servlet-test
-      command: ["java", "-jar", "app.jar"]
-      ports:
-        - "8080:8080"
+    build:
+      context: ./java-app-servlet
+    container_name: app-java-servlet-test
+    command: ["java", "-jar", "app.jar"]
+    ports:
+      - "8080:8080"
+    depends_on:
+      - grafana
+      - alertmanager
 
   alertmanager:
     image: prom/alertmanager
