@@ -4,7 +4,7 @@
 
 When using Spring Boot with Prometheus for monitoring and metrics, you might encounter a situation where Prometheus registers requests with an "UNKNOWN" URI. This happens because, by default, Spring Boot does not provide Prometheus with endpoint information, leading to incomplete monitoring data.
 
-![Problem Screenshot](/images/problem-screenshot.png)
+![Problem Screenshot](/images/problem_replication.png)
 
 ## Solution
 
@@ -82,4 +82,4 @@ In your Spring Boot application, follow these steps:
 
 With this configuration, your Prometheus metrics will now include accurate endpoint information.
 
-![Problem Screenshot](/images/problem-solution.png)
+![Problem Screenshot](/images/problem_solution.png)
